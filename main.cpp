@@ -56,6 +56,7 @@ class Incrementer : public ModuleFilter<int>
         virtual bool process(const int &in_data, int &out_data)
         {
             out_data = in_data + 1;
+            usleep( 100000 );
             return true;
         }
 };

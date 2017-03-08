@@ -33,14 +33,12 @@ class SinkHandler : private noncopyable
             {
                 T data;
                 
-                if( m_module->process(data) )
+                while( ! m_in_queue->try_pop(data, 1000) )
                 {
-                    while( ! m_in_queue->try_pop(data, 1000) )
-                    {
-                        if( m_stop_thread ) break;
-                    }
+                    if( m_stop_thread ) break;
                 }
-                else
+                
+                if( m_stop_thread  || (! m_module->process(data)) )
                 {
                     break;
                 }
